@@ -1,6 +1,6 @@
 package com.henkahau.venueapp.di
 
-import com.henkahau.venueapp.api.FoursquareApi
+import com.henkahau.venueapp.data.api.FoursquareApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
