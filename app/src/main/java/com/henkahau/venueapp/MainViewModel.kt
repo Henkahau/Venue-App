@@ -11,13 +11,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(venueInfoUseCase: NearVenueInfoUseCase) : ViewModel() {
+class MainViewModel @Inject constructor(private val venueInfoUseCase: NearVenueInfoUseCase) : ViewModel() {
 
     private val venuesFlow = MutableStateFlow<List<Venue>>(emptyList())
 
     init {
         viewModelScope.launch {
-            venuesFlow.value = venueInfoUseCase()
+            venuesFlow.value = venueInfoUseCase("") ?: emptyList()
         }
     }
 
@@ -25,5 +25,14 @@ class MainViewModel @Inject constructor(venueInfoUseCase: NearVenueInfoUseCase) 
      * Returns list of [Venue] as State flow
      */
     fun getVenues(): StateFlow<List<Venue>> = venuesFlow
+
+    /**
+     * Search nearby venues by [query]
+     */
+    fun searchVenues(query: String) {
+        viewModelScope.launch {
+            venuesFlow.value = venueInfoUseCase(query) ?: emptyList()
+        }
+    }
 
 }
