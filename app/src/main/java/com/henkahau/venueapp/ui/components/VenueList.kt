@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Card
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,27 +21,29 @@ import com.henkahau.venueapp.model.VenueLocation
  */
 @Composable
 fun VenueList(modifier: Modifier = Modifier, venues: List<Venue>) {
-    LazyColumn(modifier = modifier) {
-        items(venues) { venue ->
-            VenueComponent(venue = venue)
+    Column(modifier = modifier) {
+        Text(modifier = Modifier.padding(start = 5.dp), text = "Places near you:")
+        LazyColumn {
+            items(venues) { venue ->
+                VenueComponent(venue = venue)
+            }
         }
     }
 }
 
 @Composable
 private fun VenueComponent(modifier: Modifier = Modifier, venue: Venue) {
-    Surface(
+    Card(
         modifier = modifier
             .padding(horizontal = 10.dp, vertical = 5.dp)
             .fillMaxWidth(),
-        color = MaterialTheme.colorScheme.primary
     ) {
         Column(
             modifier = Modifier.padding(4.dp)
         ) {
             Text(text = venue.name)
-            Text(text = "Address: ${venue.location.address}")
-            Text(text = "Distance: ${venue.location.distance}")
+            Text(text = "Address: ${venue.location.address ?: ""}")
+            Text(text = "Distance: ${venue.location.distance} meters")
         }
     }
 }

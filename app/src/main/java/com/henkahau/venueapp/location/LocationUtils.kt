@@ -12,6 +12,9 @@ object LocationUtils {
         Manifest.permission.ACCESS_FINE_LOCATION
     )
 
+    /**
+     * Checks whether location permissions are granted or not.
+     */
     fun checkHasLocationPermission(context: Context): Boolean {
         return locationPermissions.all { ContextCompat.checkSelfPermission(context, it) == PERMISSION_GRANTED }
     }

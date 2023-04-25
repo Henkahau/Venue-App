@@ -1,22 +1,23 @@
 package com.henkahau.venueapp.data
 
-import android.util.Log
-import com.henkahau.venueapp.location.LocationDataProvider
-import com.henkahau.venueapp.model.Venue
+import com.henkahau.venueapp.model.UserLocation
+import com.henkahau.venueapp.model.VenueSearchState
 import javax.inject.Inject
 
 /**
- * Use case for loading Venue data
+ * Use case for loading [VenueSearchState].
  */
 class NearVenueInfoUseCase @Inject constructor(
-    private val repository: VenueRepository,
-    private val locationDataProvider: LocationDataProvider
+    private val repository: VenueRepository
 ) {
 
-    suspend operator fun invoke(query: String): List<Venue>? {
+    suspend operator fun invoke(query: String, userLocation: UserLocation): VenueSearchState {
+        val result = repository.getNearVenues(query, userLocation)
 
-        val location = locationDataProvider.getCurrentUserLocation() // FIXME returns null at first call
-        Log.d("NearVenueInfoUseCase", "Location $location")
-        return location?.let { repository.getNearVenues(query, it) }
+        return when {
+            result == null -> VenueSearchState.Error
+            result.isNotEmpty() -> VenueSearchState.Found(result)
+            else -> VenueSearchState.NotFound
+        }
     }
 }

@@ -11,11 +11,14 @@ import retrofit2.http.Query
  */
 interface FoursquareApi {
 
-    // TODO search by coordinates
+    /**
+     * Returns [VenueResponse] by [query] and [coordinates]
+     */
     @Headers(ApiConstants.ACCEPT_JSON_HEADER)
-    @GET(ApiConstants.SEARCH_BASE_URL + "&near=Oulunsalo")
+    @GET(ApiConstants.SEARCH_BASE_URL)
     suspend fun getVenuesNear(
         @Query("query") query: String,
+        @Query("ll") coordinates: String
     ): Response<VenueResponse>
 
 }

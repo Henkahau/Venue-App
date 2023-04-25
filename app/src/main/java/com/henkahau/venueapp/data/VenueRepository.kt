@@ -6,15 +6,28 @@ import com.henkahau.venueapp.model.Venue
 import javax.inject.Inject
 
 /**
- * Repository class to perform data loading from
+ * Repository class to perform data loading from [FoursquareApi].
  */
 class VenueRepository @Inject constructor(
     private val api: FoursquareApi
 ) {
-
-    suspend fun getNearVenues(query: String, location: UserLocation): List<Venue> {
+    /**
+     * Returns list of nearby [Venue]s of given [location] by [query] (optional).
+     */
+    suspend fun getNearVenues(query: String, location: UserLocation): List<Venue>? {
         return api.getVenuesNear(
-            query
-        ).body()?.response?.venues ?: emptyList()
+                query = query,
+                coordinates = location.toCoordinatesString()
+            ).let { response ->
+            if (response.isSuccessful) {
+                response.body()?.response?.venues
+            } else {
+                null
+            }
+        }
+    }
+
+    private fun UserLocation.toCoordinatesString(): String {
+        return "$latitude,$longitude"
     }
 }
