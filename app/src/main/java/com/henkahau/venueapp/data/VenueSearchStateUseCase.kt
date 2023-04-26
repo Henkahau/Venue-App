@@ -7,7 +7,7 @@ import javax.inject.Inject
 /**
  * Use case for loading [VenueSearchState].
  */
-class NearVenueInfoUseCase @Inject constructor(
+class VenueSearchStateUseCase @Inject constructor(
     private val repository: VenueRepository
 ) {
 

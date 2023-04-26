@@ -25,7 +25,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.henkahau.venueapp.location.LocationUtils
 import com.henkahau.venueapp.ui.components.MainLayout
-import com.henkahau.venueapp.ui.theme.VenueAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -51,7 +50,7 @@ class MainActivity : ComponentActivity() {
                 permissionsGranted = it.values.reduce { acc, next -> acc && next }
             }
 
-            VenueAppTheme {
+            MaterialTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),

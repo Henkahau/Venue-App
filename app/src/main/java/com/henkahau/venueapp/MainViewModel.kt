@@ -4,7 +4,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.henkahau.venueapp.data.NearVenueInfoUseCase
+import com.henkahau.venueapp.data.VenueSearchStateUseCase
 import com.henkahau.venueapp.location.LocationDataProvider
 import com.henkahau.venueapp.model.Venue
 import com.henkahau.venueapp.model.VenueSearchState
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val venueInfoUseCase: NearVenueInfoUseCase,
+    private val venueSearchStateUseCase: VenueSearchStateUseCase,
     private val locationDataProvider: LocationDataProvider
 ) : ViewModel(), DefaultLifecycleObserver {
 
@@ -32,7 +32,7 @@ class MainViewModel @Inject constructor(
             combine(locationDataProvider.getUserLocationFlow().filterNotNull(), queryFlow) { location, query ->
                 Pair(location, query)
             }.collectLatest { (location, query) ->
-                venuesFlow.value = venueInfoUseCase(query, location)
+                venuesFlow.value = venueSearchStateUseCase(query, location)
             }
         }
     }
